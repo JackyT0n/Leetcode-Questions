@@ -1,0 +1,22 @@
+Idea: We can parse the data from right to left
+      our goal here is to keep track of the largest element and its position in the stack
+      While traversing right to left we leverage the idea of the monotonic stack by removing the elements 
+      from the stack that are less than the current element we are checking
+      
+class Solution {
+public:
+    vector<int> dailyTemperatures(vector<int>& T) {
+        int len = T.size();
+        vector<int> result(len);
+        stack<pair<int,int>> s;
+        for(int i = len - 1; i >= 0; --i){                      //traverse right to left 
+            int cur = T[i];
+            while(!s.empty() && s.top().first <= cur) s.pop();  //remove elements that are smaller than current value from the stack
+            result[i] = s.empty() ? 0 : s.top().second - i;     
+            s.push({cur,i});
+        }
+        return result;
+        
+    }
+};
+      

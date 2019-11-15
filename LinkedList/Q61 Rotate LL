@@ -1,0 +1,28 @@
+IDEA 1: we can link the end of the LL to the start to form a circle 
+        that way all possible rotations are completed for us and we just need to specify where the head and tail are 
+        we can do this with some simple math
+        
+class Solution{
+public:
+  ListNode* rotateRight(ListNode* head, int k) {
+    if(!head) return NULL;
+    int len = 1;
+    ListNode* newH = head;
+    ListNode* tail = head;
+    
+    while(tail->next){
+      tail = tail->next;
+      len++;
+    }
+    
+    tail->next = head;
+    
+    if(k % len != 0){       //MAIN TRICK IS HERE we need to find out the the distance into our circle we are 
+      for(int i = 0; i < len - k % len; ++i) tail = tail->next;
+    }
+    
+    newH = tail->next;
+    tail->next = NULL;
+    return newH;
+ }
+};

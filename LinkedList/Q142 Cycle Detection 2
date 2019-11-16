@@ -1,0 +1,46 @@
+IDEA: hare and tortoise classic
+      have a slow and a fast pointer where slow moves 1 node at a time and fast moves 2 
+      if they land on the same node eventually there is a cycle 
+      
+      PROOF:
+      let L1 = dist to entry of cycle
+          L2 = dist between entry and meeting point
+          C = length of cycle 
+          n = number of times around 
+          
+          slow pointer travels = L1 + L2
+          fast pointer travels = L1 + L2 + C * n
+          since fast always moves twice as fast as the slow pointer
+          
+          2 * (L1 + L2) = L1 + L2 + n * C
+       => L1 + L2 = n * C
+       => L1 = n*C - L2\\
+       => L1 = nC - C + C - L2
+       => L1 = (n-1)C + (C-L2)
+       
+       so the distance from the entry point is equal to the remaining distance from the entry point of the loop moving forward from the collision point
+ 
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        if(head == NULL) return NULL;
+        if(head->next == NULL) return NULL;
+        
+        ListNode* slow = head;
+        ListNode* fast = head;
+        
+        while(fast->next && fast->next->next){
+            slow = slow->next;
+            fast = fast->next->next;
+            if(slow == fast){
+                fast = head;
+                while(slow != fast){
+                    slow = slow->next;
+                    fast = fast->next;
+                }
+                return slow;
+            }
+        }
+        return NULL;
+    }
+};

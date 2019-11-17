@@ -1,0 +1,33 @@
+IDEA: Similar to Maximum Subarray sum equals K
+      Initial thoughts on using sliding window is bad since it is really hard to tell when to shrink the window
+      Once we rule out sliding window as a possibility to get the answer we should look to prestoring data 
+      One area we should look at storing the amount of 0 / 1's at any given index in a meaningful way 
+      
+      * My initial thought was to use a pair to store the number of 0's and 1's at each location but this really isn't needed
+      instead we can do something such as using a counter variable that increments and decrements based on the number of 0 / 1s seen
+      
+      Finally the key to the solution lies in the fact that we can use a map to store the index at which we see a specific count 
+      
+      Why is this important?
+      If we encounter 2 equal counts then we know that the number of 0/1 are equal between them
+      so we ensure to record the left most occurence of each count (we acheive this by recording the count only once the first time we see it
+      going from left to right)
+      And now we can determine the length of the subarray based on our forloop index and the index from our map 
+      
+class Solution {
+public:
+    int findMaxLength(vector<int>& nums) {
+        unordered_map<int, int> map;
+        map[0] = -1;
+        int maxLen = 0, count = 0;
+        for(int i = 0; i < nums.size(); ++i){
+            count = count + (nums[i] == 1 ? 1 : -1);
+            if(map.find(count) != map.end()){
+                maxLen = max(maxLen, i - map[count]);
+            } else {
+                map[count] = i;
+            }
+        }
+        return maxLen;
+    }
+};

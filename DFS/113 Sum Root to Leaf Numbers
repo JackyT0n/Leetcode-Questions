@@ -1,0 +1,33 @@
+IDEA: we should be thinking in base 10
+      my original thought was to use backtracking to build a vector with all the possible numbers from root to leaf
+      and then iterate through and sum them, however upon second thought this is alot of unnecessary work
+      We can instead use dfs to temporarily store the value at each recursive call
+      
+      *thoughts for next time
+      when doing DFS I should keep in mind where I want to deal with updating the sum value and where I handle the root pointer
+      in this example, in the DFS call at the bottom I move the root pointer here, but I update sum within the call with the previous value 
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int sumNumbers(TreeNode* root) {
+        return dfs(root, 0);
+    }
+    
+    int dfs(TreeNode* root, int sum){
+        if(root == NULL) return 0;
+        
+        if(root->left == NULL && root->right == NULL){
+            return sum * 10 + root->val;
+        }
+        
+        return dfs(root->left, sum * 10 + root->val) + dfs(root->right, sum*10 + root->val);
+    }
+};

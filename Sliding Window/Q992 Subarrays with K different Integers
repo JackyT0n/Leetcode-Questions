@@ -1,0 +1,37 @@
+IDEA: This one is really tricky 
+      at first glance I attempted to solve this using a standard sliding window approach 
+      however I quickly realized the issue of counting sets that are still considered valid in terms in K 
+      but have a multitude of smaller sets within 
+      
+      EX: {1,2,1} and K = 2
+      the normal sliding window technique has the issue of proceeding to {1,2,1} and accepting this as valid without considering the set {2,1}
+      
+      The fix for this issue involves some stats 
+      consider the fact that 
+      exactK = numAtleast(K) - numAtleast(K-1);
+      
+      that is to say if we have all possible sets of values that are atleast K if we removed all values that are not exactly equal to K 
+      we will be left with exactly K 
+      
+
+class Solution {
+public:
+    int subarraysWithKDistinct(vector<int>& A, int K) {
+       return atMostK(A, K) - atMostK(A, K-1);
+    }
+    
+    int atMostK(vector<int>& A, int K){
+        unordered_map<int, int> map;
+        int start = 0, ans = 0;
+        for(int end = 0; end < A.size(); ++end){
+            if(!map[A[end]]++) K--;
+            while(K < 0){
+                if(--map[A[start]] == 0) K++;
+
+                start ++;
+            }
+            ans += end - start + 1;
+        }
+        return ans;
+    }
+};

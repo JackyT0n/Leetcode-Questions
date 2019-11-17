@@ -1,0 +1,37 @@
+IDEA: we can use an unordered_set to do O(1) look ups 
+      we can use istringstream to split up the sentence into word tokens split by spaces
+      
+      small optimization: 
+      we can precalculate the longest word that we can encounter and only loop that far
+      we could premake a string of max size and then shorten it later but thats alot of work 
+      
+class Solution {
+public:
+    string replaceWords(vector<string>& dict, string sentence) {
+        if(sentence.size() == 0) return sentence;
+        int maxLen = 0;
+        string ans = "";
+        unordered_set<string> dict_set;
+        for(string word : dict){
+            dict_set.insert(word);
+            maxLen = max(maxLen, (int)word.size());
+        }
+        istringstream ss(sentence);
+        string word;
+        while(ss >> word){
+            bool flag = false;
+            int len = min(maxLen, (int)word.size());
+            for(int i = 0; i < len; ++i){
+                string temp = word.substr(0, i+1);
+                if(dict_set.find(temp) != dict_set.end()){
+                    ans += " " + temp;
+                    flag = true;
+                    break;
+                }
+            }
+            if(!flag) ans += " " + word;
+        }
+        return ans.substr(1);
+        
+    }
+};

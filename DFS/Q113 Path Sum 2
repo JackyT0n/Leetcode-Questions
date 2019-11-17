@@ -1,0 +1,39 @@
+IDEA: we're actually mixing 2 ideas of back tracking and dfs
+      
+      We have 2 vectors, one that stores the answer 
+      vector<vector<int>> ans;
+      
+      and the other that stores the current set of numbers we're traversing 
+      vector<int> cur;
+      
+      Now we perform a DFS traversal where at each step we copy the previous cur vector and check our sum 
+      
+class Solution {
+public:
+    vector<vector<int>> pathSum(TreeNode* root, int sum) {
+        vector<vector<int>> ans;
+        vector<int> cur;
+        dfs(root, sum, cur, ans);
+        return ans;
+    }
+    
+    void dfs(TreeNode* root, int sum, vector<int> cur, vector<vector<int>>& ans){
+        if(root == NULL) return;
+        
+        sum -= root->val;
+        cur.push_back(root->val);
+        
+        if(root->left == NULL && root->right == NULL){
+            if(sum == 0){
+                ans.push_back(cur);
+            }
+        }
+        
+        if(root->left != NULL){
+            dfs(root->left, sum, cur, ans);
+        }
+        if(root->right != NULL){
+            dfs(root->right, sum, cur, ans);
+        }
+    }
+};

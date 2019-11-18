@@ -1,0 +1,40 @@
+IDEA: A cool question where a bit of brute force is required
+      Once I realized this was a BFS question it was alot easier to approach
+      we can pretend like each word is a node and all words that are 1 letter away have an edge to it 
+      
+      IMPORTANT NOTE:
+      we need to SHOULD delete words from the dictionary that have already been processed
+      since we are doing BFS we have lowest number of steps guarantee, we do not need to readd a word
+      later on in our BFS search as there is no way it is the shortest path
+      
+class Solution {
+public:
+    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+        unordered_set<string> dict(wordList.begin(), wordList.end()), head, tail, *phead, *ptail;
+        queue<string> todo;
+        todo.push(beginWord);
+        int dist = 1;
+        
+        while(!todo.empty()){
+            int n = todo.size();
+            
+            for(int i = 0; i < n; ++i){
+                string curWord = todo.front(); todo.pop();
+                if(curWord == endWord) return dist;
+                for(int j = 0; j < curWord.size(); ++j){
+                    char c = curWord[j];
+                    for(int k = 0; k < 26; ++k){
+                        curWord[j] = 'a' + k;
+                        if(dict.find(curWord) != dict.end()){
+                            todo.push(curWord);
+                            dict.erase(curWord);
+                        }
+                    }
+                    curWord[j] = c;
+                }
+            }
+            ++dist;
+        }
+        return 0;
+    }
+};

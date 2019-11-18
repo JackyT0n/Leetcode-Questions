@@ -1,0 +1,39 @@
+IDEA: Very similar to problem 347
+      We can use bucket sort again to solve this question
+      first step is to get the frequency of each word with a map
+      next place them into buckets based on frequency
+      
+      KEY IDEA: we sort the inner bucket vector only when needed
+                that means inside the buckets the words are not in alpha order
+                only if k > 0 and we need to pull values from it do we sort it 
+                
+class Solution {
+public:
+    vector<string> topKFrequent(vector<string>& words, int k) {
+        vector<string> ans;
+        unordered_map<string, int> map;
+        int maxFreq = 0;
+        for(string word : words){
+            map[word]++;
+            maxFreq = max(maxFreq, map[word]);
+        }
+        
+        vector<vector<string>> buckets(maxFreq + 1);
+        
+        for(auto entry : map){
+            buckets[entry.second].push_back(entry.first);
+        }
+        
+        for(int i = maxFreq; i >= 0; --i){
+            if(buckets[i].size() > 0){
+                sort(buckets[i].begin(), buckets[i].end());
+                for(string word : buckets[i]){
+                    ans.push_back(word);
+                    --k;
+                    if(k == 0) return ans;
+                }
+            }
+        }
+        return ans;
+    }
+};

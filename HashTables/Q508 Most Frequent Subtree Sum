@@ -1,0 +1,35 @@
+IDEA: We can store the frequence of each sum inside of hash table 
+      We can use basic tree traversal (DFS) to see all possible sums possible in the tree
+      Then, we iterate through our map and record all sums that have max freq
+      
+      DFS PORTION
+      we want to go bottom up
+      In addition we know the sum of a subtree is equal to its left and right component + itself
+      so we add our base case of NULL values returning 0, otherwise we perform our recursive call of left + right + itself
+      
+      
+class Solution {
+    unordered_map<int, int> map;
+    int maxCount = 0;
+public:
+    vector<int> findFrequentTreeSum(TreeNode* root) {
+        vector<int> ans;
+        dfs(root);
+        for(auto entry : map){
+            if(entry.second == maxCount){
+                ans.push_back(entry.first);
+            }
+        }
+        return ans;
+    }
+    
+    int dfs(TreeNode* root){
+        if(root == NULL) 0;
+        
+        int val = dfs(root->left) + dfs(root->right) + root->val;
+        
+        map[val]++;
+        maxCount = max(maxCount, map[val]);
+        return val;
+    }
+};

@@ -1,0 +1,18 @@
+IDEA: A classic question
+      When trying to complete these types of questions we need to mentally take note of what we need to keep track of 
+      In this case we need something to keep track of prev cur and next 
+
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        ListNode *newhead = NULL;
+        ListNode *cur = head;
+        while(cur != NULL){
+            ListNode *temp = cur->next;
+            cur->next = newhead;
+            newhead = cur;
+            cur = temp;
+        }
+        return newhead;
+    }
+};

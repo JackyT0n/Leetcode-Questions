@@ -1,0 +1,23 @@
+IDEA: we can identify anagrams using the sort function
+      the key to this problem is the idea that we can store an array as our value in a map
+      From there we can iterate through our map and simply append our answer 
+      
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        vector<vector<string>> ans;
+        unordered_map<string, vector<string>> map;
+        for(string word : strs){
+            string key = word;
+            sort(key.begin(), key.end());
+            map[key].push_back(word);
+        }
+        
+        for(auto entry : map){
+            ans.push_back(entry.second);
+        }
+        
+        return ans;
+        
+    }
+};

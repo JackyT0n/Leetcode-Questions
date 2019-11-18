@@ -1,0 +1,31 @@
+IDEA: we can use 1 hashmap to store the index at which words are seen
+      THE INTERESTING PART is the idea to only use 1 hashmap to also record the index sum
+      we can acheive this using negative numbers
+      We reuse the same map and instead update the numbers to be the negative value of the distance between two words
+      Now we can check which number is closer to 0 to figure out which has the lowest index
+      
+class Solution {
+public:
+    vector<string> findRestaurant(vector<string>& list1, vector<string>& list2) {
+        unordered_map<string,int> map;
+        int minSum = INT_MIN;
+        vector<string> ans;
+        for(int i = 0; i < list1.size(); ++i){
+            map[list1[i]] = i;
+        }
+        
+        for(int i = 0; i < list2.size(); ++i){
+            if(map.find(list2[i]) != map.end()){
+                map[list2[i]] = (i + map[list2[i]]) * -1;;
+                minSum = max(map[list2[i]], minSum);
+            }
+        }
+        for(auto entry : map){
+            if(entry.second == minSum){
+                ans.push_back(entry.first);
+            }
+        }
+        return ans;
+        
+    }
+};

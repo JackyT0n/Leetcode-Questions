@@ -1,0 +1,24 @@
+IDEA: Cool idea of marking a seen index with a negative value
+      First iteration we check if the index has been checked before, and flip it to negative if it has been seen
+      Interesting point that we need to use abs() function to ensure the negative indexes dont crash our array
+      second iteration is when we find all indexes that are still positive and we append them to our vector
+      
+      
+class Solution {
+public:
+    vector<int> findDisappearedNumbers(vector<int>& nums) {
+        for(int i = 0; i < nums.size(); ++i){
+            int index = abs(nums[i]) - 1;
+            if(nums[index] > 0){
+                nums[index] = - nums[index];
+            }
+        }
+        vector<int> ans;
+        for(int i = 0; i < nums.size(); ++i){
+            if(nums[i] > 0){
+                ans.push_back(i + 1);
+            }
+        }
+        return ans;
+    }
+};

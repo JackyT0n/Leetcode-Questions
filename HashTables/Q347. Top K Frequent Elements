@@ -1,0 +1,34 @@
+IDEA: We can use bucket sort to solve this problem
+      The first thing we need to do is determine the frequency of number
+      following this we place them into buckets 
+      DESIGN CHOICE 
+      1) I found that maintaining the a variable that stores the largest frequency turns out to be more space efficient but returns a slower runtime
+      2) We could instead just make all of our structures nums.size() in length which will improve performance but is worse for space
+      
+      After placing them into buckets we can now iterate from most frequent down to least frequent and pull numbers from our array until k == 0
+  
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        vector<int> ans;
+        int mostFreq = 0;
+        unordered_map<int, int> map;
+        for(int num : nums){
+            map[num]++;
+        }
+        
+        vector<vector<int>> buckets(mostFreq + 1);
+        for(auto entry : map){
+            buckets[entry.second].push_back(entry.first);
+        }
+        
+        for(int i = mostFreq; i >= 0; --i){
+            for(int j = 0; j < buckets[i].size(); ++j){
+                ans.push_back(buckets[i][j]);
+                --k;
+                if(k == 0) return ans;
+            }
+        }
+        return ans;
+    }
+};

@@ -1,0 +1,30 @@
+IDEA: we have a running value called sum that stores the current sum of the 2 nums 
+      we use 1 while loop to iterate through til the end with a condition of breaking when both linkedlist are exhausted
+      
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode *p1 = l1;
+        ListNode *p2 = l2;
+        ListNode *ans = new ListNode(-1);
+        ListNode *d = ans;
+        int sum = 0;
+        while(p1 != NULL || p2 != NULL){
+            sum /= 10;
+            if(p1 != NULL){
+                sum += p1->val;
+                p1 = p1->next;
+            }
+            if(p2 != NULL){
+                sum += p2->val;
+                p2 = p2->next;
+            }
+            d->next = new ListNode(sum % 10);
+            d = d->next;
+        }
+        if(sum / 10 == 1){
+            d->next = new ListNode(1);
+        }
+        return ans->next;
+    }
+};

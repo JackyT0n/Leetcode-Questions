@@ -1,0 +1,36 @@
+IDEA: we dfs search each island when we encounter a 1
+      the key idea to solving this is that we can modify the grid array and flip explored areas to 0
+      We use dfs to search around;
+      
+class Solution {
+public:
+    int numIslands(vector<vector<char>>& grid) {
+        int count = 0;
+        
+        for(int i = 0; i < grid.size(); i++){
+            for(int j = 0; j < grid[i].size(); j++){
+                if(grid[i][j] == '1'){
+                    count ++;
+                    explore(grid, i,j);
+                }
+            }
+        }
+        return count;
+    }
+    
+    void explore(vector<vector<char>>& grid, int row, int col){
+        int maxRow = grid.size();
+        int maxCol = grid[0].size();
+        if(row < 0 || row >= maxRow || col < 0 || col >= maxCol || grid[row][col] == '0'){
+            return;
+        }
+        
+        grid[row][col] = '0';
+        
+        explore(grid, row - 1, col);
+        explore(grid, row, col - 1);
+        explore(grid, row + 1, col);
+        explore(grid, row, col + 1);
+        
+    }
+};

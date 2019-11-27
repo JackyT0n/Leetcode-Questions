@@ -1,0 +1,13 @@
+IDEA: Learning to become familiar with Python 
+      Notes: to make a 2d array we can use a double for loop
+      [-1][-1] indexes the max index 
+      Other than that we use traditional DP approach where the numbers of ways to a tile is 
+      the number of ways beside and above it summed together
+
+class Solution:
+    def uniquePaths(self, m: int, n: int) -> int:
+        dp = [[1 for x in range(n)] for x in range(m)]
+        for i in range(1,m):
+            for j in range(1,n):
+                dp[i][j] = dp[i][j-1]+ dp[i-1][j]
+        return dp[-1][-1];

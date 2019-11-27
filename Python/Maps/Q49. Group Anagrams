@@ -1,0 +1,16 @@
+Idea: we can use the convenient sorted function
+      we can iterate through the array using a for loop
+      the Keys will be the sorted version of the current word so that all words that are Anagrams will map to the same entry
+      python has a unique way of adding to an entry
+      d.get(key, []) + [w] is how we append it 
+      
+      Finally, python also allows you to return a dictionary's values in an array that DOES NOT map to keys 
+      
+class Solution:
+   def groupAnagrams(self, strs):
+    d = {}
+    for w in (strs):
+        key = tuple(sorted(w))
+        d[key] = d.get(key, []) + [w]
+    return d.values()
+        
